@@ -1,4 +1,5 @@
-public abstract class CelestialObject {
+import java.io.Serializable;
+public abstract class CelestialObject implements Serializable {
     private String name;
     private double size;
     private double mass;

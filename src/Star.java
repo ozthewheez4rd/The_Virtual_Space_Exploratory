@@ -1,4 +1,5 @@
-public class Star extends CelestialObject {
+import java.io.Serializable;
+public class Star extends CelestialObject implements Serializable {
     private double temperature;
     private double luminosity;
     private double criticalMass;
