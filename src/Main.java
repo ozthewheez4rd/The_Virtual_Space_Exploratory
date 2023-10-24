@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,9 +7,6 @@ public class Main {
 
         // Create an instance of the CelestialObjectRepo
         CelestialObjectRepo repository = new CelestialObjectRepo();
-
-        //Populate Repository with stars
-        populateRepositoryWithStars(repository);
 
         do {
             clearConsole();
@@ -23,6 +19,7 @@ public class Main {
             System.out.println("| [3] Manage Crew                        |");
             System.out.println("| [4] Manage Cargo                       |");
             System.out.println("| [5] Spaceship Catalogue                |");
+            System.out.println("| [6] Add Entries                        |");
             System.out.println("| [0] Exit                               |");
             System.out.println("==========================================");
             System.out.print("Enter your choice: ");
@@ -30,30 +27,7 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    // Retrieve celestial objects from the repository and explore them
-                    List<CelestialObject> celestialObjects = repository.getAllCelestialObjects();
-                    if (celestialObjects.isEmpty()) {
-                        System.out.println("No celestial objects available for exploration.");
-                    } else {
-                        int objectChoice;
-                        do {
-                            System.out.println("Select a celestial object to explore:");
-                            for (int i = 0; i < celestialObjects.size(); i++) {
-                                System.out.println("[" + (i + 1) + "] " + celestialObjects.get(i).getName());
-                            }
-                            System.out.println("[0] Exit exploration");
-                            objectChoice = scanner.nextInt();
-                            if (objectChoice == 0) {
-                                break; // Exit the exploration loop
-                            } else if (objectChoice >= 1 && objectChoice <= celestialObjects.size()) {
-                                CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
-                                System.out.println("Exploring " + selectedObject.getName() + ":");
-                                selectedObject.explore();
-                            } else {
-                                System.out.println("Invalid choice. Please try again.");
-                            }
-                        } while (objectChoice != 0);
-                    }
+                    // Explore Celestial Object
                     break;
                 case 2:
                     // View Spacecraft
@@ -67,6 +41,10 @@ public class Main {
                 case 5:
                     // Spaceship Catalogue
                     break;
+                case 6:
+                    // Add Entries
+                    addEntry(repository, scanner);
+                    break;
                 case 0:
                     System.out.println("Exiting Space Exploration Console.");
                     break;
@@ -75,13 +53,136 @@ public class Main {
             }
         } while (choice != 0);
     }
-    private static void populateRepositoryWithStars(CelestialObjectRepo repository) {
-        repository.addCelestialObject(new Star("Sun", 1392684, 1989000, 5778, 1.989e30, 3.828e26));
-        repository.addCelestialObject(new Star("Proxima Centauri", 197162, 0.1234, 3040, 0.123e30, 0.456e26));
-        repository.addCelestialObject(new Star("Betelgeuse", 2159734, 0.44, 3500, 2.345e30, 1.678e26));
-        repository.addCelestialObject(new Star("Rigel", 2354994, 0.24, 12110, 3.123e30, 2.345e26));
-        repository.addCelestialObject(new Star("Aldebaran", 2159734, 0.44, 4000, 1.876e30, 1.543e26));
+
+    private static void addEntry(CelestialObjectRepo repository, Scanner scanner) {
+        int objectChoice;
+        do {
+            clearConsole();
+            System.out.println("==========================================");
+            System.out.println("           Add Celestial Object          ");
+            System.out.println("==========================================");
+            System.out.println("| [1] Add a Star                         |");
+            System.out.println("| [2] Add a Planet                       |");
+            System.out.println("| [3] Add a Moon                         |");
+            System.out.println("| [4] Add an Asteroid                    |");
+            System.out.println("| [5] Add a Comet                        |");
+            System.out.println("| [0] Finish adding entries              |");
+            System.out.println("==========================================");
+            System.out.print("Enter your choice: ");
+            objectChoice = scanner.nextInt();
+
+            switch (objectChoice) {
+                case 1:
+                    addStar(repository, scanner);
+                    break;
+                case 2:
+                    addPlanet(repository, scanner);
+                    break;
+                case 3:
+                    addMoon(repository, scanner);
+                    break;
+                case 4:
+                    addAsteroid(repository, scanner);
+                    break;
+                case 5:
+                    addComet(repository, scanner);
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (objectChoice != 0);
     }
+
+    // Implementations for adding celestial objects
+
+    private static void addStar(CelestialObjectRepo repository, Scanner scanner) {
+        System.out.print("Enter the name of the star: ");
+        String name = scanner.next();
+
+        System.out.print("Enter the radius of the star (in km): ");
+        double radius = scanner.nextDouble();
+
+        System.out.print("Enter the mass of the star (in kg): ");
+        double mass = scanner.nextDouble();
+
+        System.out.print("Enter the temperature of the star (in K): ");
+        int temperature = scanner.nextInt();
+
+        System.out.print("Enter the critical mass of the star (in kg): ");
+        double criticalMass = scanner.nextDouble();
+
+        System.out.print("Enter the luminosity of the star (in watts): ");
+        double luminosity = scanner.nextDouble();
+
+        repository.addCelestialObject(new Star(name, radius, mass, temperature, criticalMass, luminosity));
+    }
+
+    private static void addPlanet(CelestialObjectRepo repository, Scanner scanner) {
+        System.out.print("Enter the name of the planet: ");
+        String name = scanner.next();
+
+        System.out.print("Enter the radius of the planet (in km): ");
+        double radius = scanner.nextDouble();
+
+        System.out.print("Enter the mass of the planet (in kg): ");
+        double mass = scanner.nextDouble();
+
+        System.out.print("Enter the composition of the planet: ");
+        String composition = scanner.next();
+
+        repository.addCelestialObject(new Planet(name, radius, mass, composition));
+    }
+
+    private static void addMoon(CelestialObjectRepo repository, Scanner scanner) {
+        System.out.print("Enter the name of the moon: ");
+        String name = scanner.next();
+
+        System.out.print("Enter the radius of the moon (in km): ");
+        double radius = scanner.nextDouble();
+
+        System.out.print("Enter the mass of the moon (in kg): ");
+        double mass = scanner.nextDouble();
+
+        System.out.print("Enter the parent planet of the moon: ");
+        String parentPlanet = scanner.next();
+
+        repository.addCelestialObject(new Moon(name, radius, mass, parentPlanet));
+    }
+
+    private static void addAsteroid(CelestialObjectRepo repository, Scanner scanner) {
+        System.out.print("Enter the name of the asteroid: ");
+        String name = scanner.next();
+
+        System.out.print("Enter the radius of the asteroid (in km): ");
+        double radius = scanner.nextDouble();
+
+        System.out.print("Enter the mass of the asteroid (in kg): ");
+        double mass = scanner.nextDouble();
+
+        System.out.print("Enter the composition of the asteroid: ");
+        String composition = scanner.next();
+
+        repository.addCelestialObject(new Asteroid(name, radius, mass, composition));
+    }
+
+    private static void addComet(CelestialObjectRepo repository, Scanner scanner) {
+        System.out.print("Enter the name of the comet: ");
+        String name = scanner.next();
+
+        System.out.print("Enter the radius of the comet (in km): ");
+        double radius = scanner.nextDouble();
+
+        System.out.print("Enter the mass of the comet (in kg): ");
+        double mass = scanner.nextDouble();
+
+        System.out.print("Enter the composition of the comet: ");
+        String composition = scanner.next();
+
+        repository.addCelestialObject(new Comet(name, radius, mass, composition));
+    }
+
 
     private static void clearConsole() {
         System.out.print("\033[H\033[2J");

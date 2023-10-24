@@ -4,7 +4,7 @@ public abstract class CelestialObject implements Serializable {
     private double size;
     private double mass;
 
-    public CelestialObject(String name, double type, double size ) {
+    public CelestialObject(String name, double mass, double size ) {
         this.name = name;
         this.size = size;
         this.mass = mass;
@@ -14,7 +14,7 @@ public abstract class CelestialObject implements Serializable {
         return name;
     }
 
-    public double getsize() {
+    public double getSize() {
         return size;
     }
 
