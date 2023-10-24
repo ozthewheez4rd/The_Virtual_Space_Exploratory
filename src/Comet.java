@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Scanner;
 
 public class Comet extends CelestialObject implements Serializable {
     private String composition;
@@ -11,6 +12,23 @@ public class Comet extends CelestialObject implements Serializable {
     public String getComposition() {
         return composition;
     }
+
+    public static void addComet(CelestialObjectRepo repository, Scanner scanner) {
+        System.out.print("Enter the name of the comet: ");
+        String name = scanner.next();
+
+        System.out.print("Enter the radius of the comet (in km): ");
+        double radius = scanner.nextDouble();
+
+        System.out.print("Enter the mass of the comet (in kg): ");
+        double mass = scanner.nextDouble();
+
+        System.out.print("Enter the composition of the comet: ");
+        String composition = scanner.next();
+
+        repository.addCelestialObject(new Comet(name, radius, mass, composition));
+    }
+
 
     @Override
     public void explore() {

@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Scanner;
 
 public class Moon extends CelestialObject implements Serializable {
     private double temperature;
@@ -22,6 +23,28 @@ public class Moon extends CelestialObject implements Serializable {
 
     public double getLuminosity() {
         return luminosity;
+    }
+
+    public static void addMoon(CelestialObjectRepo repository, Scanner scanner) {
+        System.out.print("Enter the name of the moon: ");
+        String moonName = scanner.next();
+
+        System.out.print("Enter the radius of the moon (in km): ");
+        double moonRadius = scanner.nextDouble();
+
+        System.out.print("Enter the mass of the moon (in kg): ");
+        double moonMass = scanner.nextDouble();
+
+        System.out.print("Enter the temperature of the moon (in Celsius): ");
+        double moonTemperature = scanner.nextDouble();
+
+        System.out.print("Enter the critical mass of the moon (in kg): ");
+        double moonCriticalMass = scanner.nextDouble();
+
+        System.out.print("Enter the luminosity of the moon (in watts): ");
+        double moonLuminosity = scanner.nextDouble();
+
+        repository.addCelestialObject(new Moon(moonName, moonRadius, moonMass, moonTemperature, moonCriticalMass, moonLuminosity));
     }
 
     @Override

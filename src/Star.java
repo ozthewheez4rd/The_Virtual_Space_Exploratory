@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.util.Scanner;
+
 public class Star extends CelestialObject implements Serializable {
     private double temperature;
     private double luminosity;
@@ -21,6 +23,28 @@ public class Star extends CelestialObject implements Serializable {
 
     public double getCriticalMass() {
         return criticalMass;
+    }
+
+    public static void addStar(CelestialObjectRepo repository, Scanner scanner) {
+        System.out.print("Enter the name of the star: ");
+        String name = scanner.next();
+
+        System.out.print("Enter the radius of the star (in km): ");
+        double radius = scanner.nextDouble();
+
+        System.out.print("Enter the mass of the star (in kg): ");
+        double mass = scanner.nextDouble();
+
+        System.out.print("Enter the temperature of the star (in K): ");
+        int temperature = scanner.nextInt();
+
+        System.out.print("Enter the critical mass of the star (in kg): ");
+        double criticalMass = scanner.nextDouble();
+
+        System.out.print("Enter the luminosity of the star (in watts): ");
+        double luminosity = scanner.nextDouble();
+
+        repository.addCelestialObject(new Star(name, radius, mass, temperature, criticalMass, luminosity));
     }
 
     @Override
