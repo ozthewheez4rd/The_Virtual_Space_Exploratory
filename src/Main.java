@@ -8,10 +8,7 @@ public class Main {
 
         // Create an instance of the repositories
         CelestialObjectRepo repositoryObj = new CelestialObjectRepo();
-        ResourceRepo repositoryRes = new ResourceRepo();
-
-        // Create an instance of the Spaceship
-        Spaceship spaceship = new Spaceship("Aurora", 100.0, 100.0, 200.0);
+        CrewMemberRepo repositoryCrew = new CrewMemberRepo();
 
         do {
             clearConsole();
@@ -30,49 +27,39 @@ public class Main {
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
+
             switch (choice) {
                 case 1:
-                    // Retrieve celestial objects from the repository and explore them
-                    List<CelestialObject> celestialObjects = repositoryObj.getAllCelestialObjects();
-                    if (celestialObjects.isEmpty()) {
-                        System.out.println("No celestial objects available for exploration.");
-                    } else {
-                        int objectChoice;
-                        do {
-                            System.out.println("Select a celestial object to explore:");
-                            for (int i = 0; i < celestialObjects.size(); i++) {
-                                System.out.println("[" + (i + 1) + "] " + celestialObjects.get(i).getName());
-                            }
-                            System.out.println("[0] Exit exploration");
-                            objectChoice = scanner.nextInt();
-                            if (objectChoice == 0) {
-                                break; // Exit the exploration loop
-                            } else if (objectChoice >= 1 && objectChoice <= celestialObjects.size()) {
-                                CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
-                                System.out.println("Exploring " + selectedObject.getName() + ":");
-                                selectedObject.explore();
-                            } else {
-                                System.out.println("Invalid choice. Please try again.");
-                            }
-                        } while (objectChoice != 0);
-                    }
+                    // Explore Celestial Object
+                    exploreCelestialObjects(repositoryObj, scanner);
                     break;
                 case 2:
                     // View Spacecraft
-                    viewSpaceship(spaceship);
                     break;
                 case 3:
                     // Manage Crew
+                    manageCrew(repositoryCrew, scanner);
                     break;
                 case 4:
                     // Manage Cargo
                     break;
                 case 5:
                     // Spaceship Catalogue
+                    // Implement spaceship catalog logic here
                     break;
                 case 6:
                     // Add Entries
-                    addEntry(repositoryObj, scanner);
+                    System.out.println("| [1] Add a Celestial Object             |");
+                    System.out.println("| [2] Add a Crew Member                  |");
+                    int addChoice = scanner.nextInt();
+                    switch (addChoice) {
+                        case 1:
+                            addCelestialObject(repositoryObj, scanner);
+                            break;
+                        case 2:
+                            CrewMember.addCrewMember(repositoryCrew, scanner);
+                    }
+
                     break;
                 case 0:
                     System.out.println("Exiting Space Exploration Console.");
@@ -83,7 +70,64 @@ public class Main {
         } while (choice != 0);
     }
 
-    private static void addEntry(CelestialObjectRepo repository, Scanner scanner) {
+    private static void exploreCelestialObjects(CelestialObjectRepo repository, Scanner scanner) {
+        List<CelestialObject> celestialObjects = repository.getAllCelestialObjects();
+
+        if (celestialObjects.isEmpty()) {
+            System.out.println("No celestial objects available for exploration.");
+        } else {
+            int objectChoice;
+            do {
+                System.out.println("Select a celestial object to explore:");
+                for (int i = 0; i < celestialObjects.size(); i++) {
+                    System.out.println("[" + (i + 1) + "] " + celestialObjects.get(i).getName());
+                }
+                System.out.println("[0] Exit exploration");
+                objectChoice = scanner.nextInt();
+
+                if (objectChoice == 0) {
+                    break; // Exit the exploration loop
+                } else if (objectChoice >= 1 && objectChoice <= celestialObjects.size()) {
+                    CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
+                    System.out.println("Exploring " + selectedObject.getName() + ":");
+                    selectedObject.explore();
+                } else {
+                    System.out.println("Invalid choice. Please try again.");
+                }
+            } while (objectChoice != 0);
+        }
+    }
+
+    private static void manageCrew(CrewMemberRepo repository, Scanner scanner) {
+        List<CrewMember> crewMembers = repository.getAllCrewMembers();
+
+        if(crewMembers.isEmpty()) {
+            System.out.println("You have no crew. How though?? How did you kill all of them?!");
+            CrewMember.addCrewMember(repository, scanner);
+        }else{
+            int memberChoice;
+            do {
+                System.out.println("Select a crew member:");
+                for (int i = 0; i < crewMembers.size(); i++) {
+                    System.out.println("[" + (i + 1) + "] " + crewMembers.get(i).getName());
+                }
+                System.out.println("[0] Exit exploration");
+                memberChoice = scanner.nextInt();
+
+                if (memberChoice == 0) {
+                    break; // Exit the exploration loop
+                } else if (memberChoice >= 1 && memberChoice <= crewMembers.size()) {
+                    CrewMember selectedMember = crewMembers.get(memberChoice - 1);
+                    System.out.println("Viewing " + selectedMember.getName() + ":");
+                    selectedMember.explore();
+                } else {
+                    System.out.println("Invalid choice. Please try again.");
+                }
+            } while (memberChoice != 0);
+        }
+    }
+
+    private static void addCelestialObject(CelestialObjectRepo repository, Scanner scanner) {
         int objectChoice;
         do {
             clearConsole();
@@ -122,22 +166,6 @@ public class Main {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (objectChoice != 0);
-    }
-
-    private static void viewSpaceship(Spaceship spaceship) {
-        clearConsole();
-        System.out.println("==========================================");
-        System.out.println("            Spaceship Details            ");
-        System.out.println("==========================================");
-        System.out.println("Name: " + spaceship.getName());
-        System.out.println("Hull Health: " + spaceship.getHullHealth());
-        System.out.println("Fuel: " + spaceship.getFuel());
-        System.out.println("Max Cargo Capacity: " + spaceship.getMaxCargoCapacity());
-        System.out.println("Current Cargo Load: " + spaceship.getCurrentCargoLoad());
-        System.out.println("Cargo: " + spaceship.getCargo());
-        System.out.println("Press [0] to exit the Spaceship View");
-        System.out.println("==========================================");
-        new Scanner(System.in).nextLine();
     }
 
     private static void clearConsole() {

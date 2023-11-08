@@ -23,7 +23,7 @@ public class CelestialObjectRepo {
 
     // Load celestial objects from a file
     private List<CelestialObject> loadCelestialObjects() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("celestial_objects.dat"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("C:\\Users\\Oana\\IdeaProjects\\MAP\\celestial_objects.dat"))) {
             return (List<CelestialObject>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             return new ArrayList<>();
@@ -32,7 +32,7 @@ public class CelestialObjectRepo {
 
     // Save celestial objects to a file
     private void saveCelestialObjects(List<CelestialObject> objects) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("celestial_objects.dat"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Oana\\IdeaProjects\\MAP\\celestial_objects.dat"))) {
             oos.writeObject(objects);
         } catch (IOException e) {
             e.printStackTrace();
