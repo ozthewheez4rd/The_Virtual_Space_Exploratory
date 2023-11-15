@@ -4,17 +4,20 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Spacecraft spacecraft = new Spacecraft("Aurora", 100.0, 100.0);
         int choice;
 
         // Create an instance of the repositories
         CelestialObjectRepo repositoryObj = new CelestialObjectRepo();
         CrewMemberRepo repositoryCrew = new CrewMemberRepo();
+        CargoRepo repositoryCarg = new CargoRepo();
 
         do {
             clearConsole();
 
             System.out.println("==========================================");
-            System.out.println("          Space Exploration Console       ");
+            System.out.println("          Space Exploration Console                  Health: " + spacecraft.getHealth());
+            System.out.println("                                                     Fuel:   " + spacecraft.getFuel());
             System.out.println("==========================================");
             System.out.println("| [1] Explore Celestial Object           |");
             System.out.println("| [2] View Spacecraft                    |");
@@ -42,6 +45,7 @@ public class Main {
                     break;
                 case 4:
                     // Manage Cargo
+                    manageCargo(repositoryCarg, scanner);
                     break;
                 case 5:
                     // Spaceship Catalogue
@@ -51,6 +55,8 @@ public class Main {
                     // Add Entries
                     System.out.println("| [1] Add a Celestial Object             |");
                     System.out.println("| [2] Add a Crew Member                  |");
+                    System.out.println("| [3] Add Cargo                          |");
+
                     int addChoice = scanner.nextInt();
                     switch (addChoice) {
                         case 1:
@@ -58,6 +64,8 @@ public class Main {
                             break;
                         case 2:
                             CrewMember.addCrewMember(repositoryCrew, scanner);
+                        case 3:
+                            Cargo.addCargo(repositoryCarg, scanner);
                     }
 
                     break;
@@ -68,6 +76,34 @@ public class Main {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
+    }
+
+    private static void manageCargo(CargoRepo repository, Scanner scanner) {
+        List <Cargo> cargoList = repository.getAllCargo();
+
+        if (cargoList.isEmpty()) {
+            System.out.println("Cargo is empty.");
+        }else {
+            int cargoChoice;
+            do {
+                System.out.println("Select an item to inspect: ");
+                for (int i = 0; i < cargoList.size(); i++) {
+                    System.out.println("[" + (i + 1) + "] " + cargoList.get(i).getName());
+                }
+                System.out.println("[0] Exit exploration");
+                cargoChoice = scanner.nextInt();
+
+            if (cargoChoice == 0) {
+                break; // Exit the exploration loop
+            } else if (cargoChoice >= 1 && cargoChoice <= cargoList.size()) {
+                Cargo selectedObject = cargoList.get(cargoChoice - 1);
+                System.out.println("We have: " + selectedObject.getQuantity() + " " + selectedObject.getName() + ". Market value is set at: " + selectedObject.getValue());
+                System.out.println("Total sale value: " + (selectedObject.getQuantity() * selectedObject.getValue()));
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+            } while (cargoChoice != 0);
+        }
     }
 
     private static void exploreCelestialObjects(CelestialObjectRepo repository, Scanner scanner) {
