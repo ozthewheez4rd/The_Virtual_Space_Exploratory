@@ -64,10 +64,21 @@ public class Main {
                             break;
                         case 2:
                             CrewMember.addCrewMember(repositoryCrew, scanner);
+                            break;
                         case 3:
-                            Cargo.addCargo(repositoryCarg, scanner);
-                    }
+                            CelestialObjectRepo repository = new CelestialObjectRepo();
+                            List<CelestialObject> celestialObjects = repository.getAllCelestialObjects();
 
+                            System.out.println("Select a celestial object: ");
+                            for (int i = 0; i < celestialObjects.size(); i++) {
+                                System.out.println("[" + (i + 1) + "] " + celestialObjects.get(i).getName());
+                            }
+                            int objectChoice = scanner.nextInt();
+                            CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
+                            addResourcesToCelestialObject(selectedObject, scanner, repositoryCarg);
+                            break;
+
+                    }
                     break;
                 case 0:
                     System.out.println("Exiting Space Exploration Console.");
@@ -78,7 +89,7 @@ public class Main {
         } while (choice != 0);
     }
 
-    private static void manageCargo(CargoRepo repository, Scanner scanner) {
+    public static void manageCargo(CargoRepo repository, Scanner scanner) {
         List <Cargo> cargoList = repository.getAllCargo();
 
         if (cargoList.isEmpty()) {
@@ -93,20 +104,20 @@ public class Main {
                 System.out.println("[0] Exit exploration");
                 cargoChoice = scanner.nextInt();
 
-            if (cargoChoice == 0) {
-                break; // Exit the exploration loop
-            } else if (cargoChoice >= 1 && cargoChoice <= cargoList.size()) {
-                Cargo selectedObject = cargoList.get(cargoChoice - 1);
-                System.out.println("We have: " + selectedObject.getQuantity() + " " + selectedObject.getName() + ". Market value is set at: " + selectedObject.getValue());
-                System.out.println("Total sale value: " + (selectedObject.getQuantity() * selectedObject.getValue()));
-            } else {
-                System.out.println("Invalid choice. Please try again.");
-            }
+                if (cargoChoice == 0) {
+                    break; // Exit the exploration loop
+                } else if (cargoChoice >= 1 && cargoChoice <= cargoList.size()) {
+                    Cargo selectedObject = cargoList.get(cargoChoice - 1);
+                    System.out.println("We have: " + selectedObject.getQuantity() + " " + selectedObject.getName() + ". Market value is set at: " + selectedObject.getValue());
+                    System.out.println("Total sale value: " + (selectedObject.getQuantity() * selectedObject.getValue()));
+                } else {
+                    System.out.println("Invalid choice. Please try again.");
+                }
             } while (cargoChoice != 0);
         }
     }
 
-    private static void exploreCelestialObjects(CelestialObjectRepo repository, Scanner scanner) {
+    public static void exploreCelestialObjects(CelestialObjectRepo repository, Scanner scanner) {
         List<CelestialObject> celestialObjects = repository.getAllCelestialObjects();
 
         if (celestialObjects.isEmpty()) {
@@ -134,7 +145,36 @@ public class Main {
         }
     }
 
-    private static void manageCrew(CrewMemberRepo repository, Scanner scanner) {
+    private static void addResourcesToCelestialObject(CelestialObject celestialObject, Scanner scanner, CargoRepo cargoRepo) {
+        int resourceChoice;
+        do {
+            System.out.println("Select a resource to add to " + celestialObject.getName() + ":");
+            List<Resource> availableResources = cargoRepo.getAllResources(); // Replace with your method to get all resources
+
+            for (int i = 0; i < availableResources.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + availableResources.get(i).getName());
+            }
+
+            System.out.println("[0] Done adding resources");
+            resourceChoice = scanner.nextInt();
+
+            if (resourceChoice == 0) {
+                break; // Exit the resource adding loop
+            } else if (resourceChoice >= 1 && resourceChoice <= availableResources.size()) {
+                Resource selectedResource = availableResources.get(resourceChoice - 1);
+                celestialObject.addResource(selectedResource);
+                System.out.println(selectedResource.getName() + " added to " + celestialObject.getName());
+
+                // Save the resource to the CargoRepo
+                cargoRepo.addResource(selectedResource);
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        } while (resourceChoice != 0);
+    }
+
+
+    public static void manageCrew(CrewMemberRepo repository, Scanner scanner) {
         List<CrewMember> crewMembers = repository.getAllCrewMembers();
 
         if(crewMembers.isEmpty()) {
@@ -163,7 +203,7 @@ public class Main {
         }
     }
 
-    private static void addCelestialObject(CelestialObjectRepo repository, Scanner scanner) {
+    public static void addCelestialObject(CelestialObjectRepo repository, Scanner scanner) {
         int objectChoice;
         do {
             clearConsole();
