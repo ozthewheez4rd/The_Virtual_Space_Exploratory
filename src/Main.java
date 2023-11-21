@@ -16,8 +16,7 @@ public class Main {
             clearConsole();
 
             System.out.println("==========================================");
-            System.out.println("          Space Exploration Console                  Health: " + spacecraft.getHealth());
-            System.out.println("                                                     Fuel:   " + spacecraft.getFuel());
+            System.out.println("          Space Exploration Console       ");
             System.out.println("==========================================");
             System.out.println("| [1] Explore Celestial Object           |");
             System.out.println("| [2] View Spacecraft                    |");
@@ -32,12 +31,12 @@ public class Main {
 
 
             switch (choice) {
-                case 1:
-                    // Explore Celestial Object
-                    exploreCelestialObjects(repositoryObj, scanner);
-                    break;
-                case 2:
-                    // View Spacecraft
+                        case 1:
+                            // Explore Celestial Object
+                            exploreCelestialObjects(repositoryObj, scanner);
+                            break;
+                        case 2:
+                            viewSpacecraft(spacecraft);
                     break;
                 case 3:
                     // Manage Crew
@@ -88,6 +87,17 @@ public class Main {
             }
         } while (choice != 0);
     }
+
+    public static void viewSpacecraft(Spacecraft spacecraft) {
+        System.out.println("==========================================");
+        System.out.println("              Spacecraft Overview                  ");
+        System.out.println("==========================================");
+        System.out.println("Name: " + spacecraft.getName());
+        System.out.println("Health: " + spacecraft.getHealth() + "/" + spacecraft.getMaxHealth());
+        System.out.println("Fuel: " + spacecraft.getFuel() + "/" + spacecraft.getMaxFuel());
+        System.out.println("==========================================");
+    }
+
 
     public static void manageCargo(CargoRepo repository, Scanner scanner) {
         List <Cargo> cargoList = repository.getAllCargo();
