@@ -1,3 +1,4 @@
+import javax.management.monitor.Monitor;
 import java.util.Scanner;
 import java.util.List;
 
@@ -11,6 +12,10 @@ public class Main {
         CelestialObjectRepo repositoryObj = new CelestialObjectRepo();
         CrewMemberRepo repositoryCrew = new CrewMemberRepo();
         CargoRepo repositoryCarg = new CargoRepo();
+        Spacecraft.HealthMonitor healthMonitor = new Spacecraft.HealthMonitor();
+        Spacecraft.FuelMonitor fuelMonitor = new Spacecraft.FuelMonitor();
+        spacecraft.addObserver(healthMonitor);
+        spacecraft.addObserver(fuelMonitor);
 
         do {
             clearConsole();
@@ -31,7 +36,7 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    exploreCelestialObjects(repositoryObj, scanner);
+                    exploreCelestialObjects(repositoryObj, scanner, spacecraft);
                     break;
                 case 2:
                     viewSpacecraft(spacecraft);
@@ -58,7 +63,7 @@ public class Main {
         } while (choice != 0);
     }
 
-    public static void exploreCelestialObjects(CelestialObjectRepo repository, Scanner scanner) {
+    public static void exploreCelestialObjects(CelestialObjectRepo repository, Scanner scanner, Spacecraft spacecraft) {
         repository.loadCelestialObjects(); // Reload celestial objects from the database
 
         List<CelestialObject> celestialObjects = repository.getAllCelestialObjects();
@@ -80,6 +85,9 @@ public class Main {
                 } else if (objectChoice >= 1 && objectChoice <= celestialObjects.size()) {
                     CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
                     System.out.println("Exploring " + selectedObject.getName() + ":");
+                    if (selectedObject.getSize() > 50)
+                        spacecraft.setHealth(30);
+                        spacecraft.setFuel(40);
                     selectedObject.explore();
                 } else {
                     System.out.println("Invalid choice. Please try again.");
