@@ -1,8 +1,12 @@
-import java.io.*;
-import java.util.List;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CelestialObjectRepo {
+    private static final String JDBC_URL = "jdbc:mysql://Localhost:3306/spacecraft_db";
+    private static final String JDBC_USER = "root";
+    private static final String JDBC_PASSWORD = "root";
+
     private List<CelestialObject> celestialObjects;
 
     public CelestialObjectRepo() {
@@ -12,29 +16,64 @@ public class CelestialObjectRepo {
     public void addCelestialObject(CelestialObject celestialObject) {
         if (!celestialObjects.contains(celestialObject)) {
             celestialObjects.add(celestialObject);
-            saveCelestialObjects(celestialObjects);
+            saveCelestialObject(celestialObject);
         }
     }
-
 
     public List<CelestialObject> getAllCelestialObjects() {
         return celestialObjects;
     }
 
-    // Load celestial objects from a file
-    private List<CelestialObject> loadCelestialObjects() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("C:\\Users\\Oana\\IdeaProjects\\MAP\\celestial_objects.dat"))) {
-            return (List<CelestialObject>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new ArrayList<>();
+    public List<CelestialObject> loadCelestialObjects() {
+        List<CelestialObject> objects = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+             Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM CelestialObjects");
+
+            while (resultSet.next()) {
+                String name = resultSet.getString("Name");
+                double mass = resultSet.getDouble("Mass");
+                double size = resultSet.getDouble("Size");
+
+                // Example: CelestialObject object = new CelestialObject(name, mass, size);
+                // objects.add(object);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return objects;
+    }
+    private int getNextAvailableID() {
+        int nextID = 1;
+
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+             Statement statement = connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery("SELECT MAX(ID) FROM CelestialObjects");
+
+            if (resultSet.next()) {
+                nextID = resultSet.getInt(1) + 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nextID;
     }
 
-    // Save celestial objects to a file
-    private void saveCelestialObjects(List<CelestialObject> objects) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Oana\\IdeaProjects\\MAP\\celestial_objects.dat"))) {
-            oos.writeObject(objects);
-        } catch (IOException e) {
+    private void saveCelestialObject(CelestialObject celestialObject) {
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO CelestialObjects (ID, Name, Mass, Size) VALUES (?, ?, ?, ?)")) {
+
+            preparedStatement.setInt(1, getNextAvailableID());  // Provide a unique value for 'ID'
+            preparedStatement.setString(2, celestialObject.getName());
+            preparedStatement.setDouble(3, celestialObject.getMass());
+            preparedStatement.setDouble(4, celestialObject.getSize());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
