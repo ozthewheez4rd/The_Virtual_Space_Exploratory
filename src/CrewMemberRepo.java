@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class CrewMemberRepo {
     private List<CrewMember> crewMembers;
@@ -8,11 +9,33 @@ public class CrewMemberRepo {
         crewMembers = loadCrewMembers();
     }
 
-    public void addCrewMember(CrewMember crewMember) {
+    public void addCrewMember(CrewMember crewMember, Scanner scanner) {
         if (!crewMembers.contains(crewMember)) {
+            setBodyStatus(crewMember, scanner);
             crewMembers.add(crewMember);
             saveCrewMembers(crewMembers);
         }
+    }
+    public void setBodyStatus(CrewMember crewMember, Scanner scanner) {
+        System.out.println("Enter Body Part Status for " + crewMember.getName() + ":");
+
+        System.out.print("Torso (Healthy/Injured): ");
+        crewMember.getBody().setTorso(scanner.next());
+
+        System.out.print("Head (Healthy/Injured): ");
+        crewMember.getBody().setHead(scanner.next());
+
+        System.out.print("Left Arm (Healthy/Injured): ");
+        crewMember.getBody().setLeftArm(scanner.next());
+
+        System.out.print("Right Arm (Healthy/Injured): ");
+        crewMember.getBody().setRightArm(scanner.next());
+
+        System.out.print("Left Leg (Healthy/Injured): ");
+        crewMember.getBody().setLeftLeg(scanner.next());
+
+        System.out.print("Right Leg (Healthy/Injured): ");
+        crewMember.getBody().setRightLeg(scanner.next());
     }
 
 

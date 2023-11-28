@@ -18,7 +18,8 @@ public class CrewMember implements Serializable {
         System.out.print("Enter Crew Member's Position: ");
         String position = scanner.next();
 
-        repository.addCrewMember(new CrewMember(name, position));
+        CrewMember newCrewMember = new CrewMember(name, position);
+        repository.addCrewMember(newCrewMember, scanner);
     }
     public String getName() {
         return name;
