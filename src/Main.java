@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        // Create the first instances of general objects
         Scanner scanner = new Scanner(System.in);
         Spacecraft spacecraft = new Spacecraft("Aurora", 100.0, 100.0);
         int choice;
@@ -83,8 +84,14 @@ public class Main {
                 if (objectChoice == 0) {
                     break; // Exit the exploration loop
                 } else if (objectChoice >= 1 && objectChoice <= celestialObjects.size()) {
+//                    CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
+//                    System.out.println("Exploring " + selectedObject.getName() + ":");
                     CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
                     System.out.println("Exploring " + selectedObject.getName() + ":");
+                    CelestialObjectProxy proxy = new CelestialObjectProxy(selectedObject.getName(), selectedObject.getMass(), selectedObject.getSize());
+                    System.out.println("Exploring " + proxy.getName() + ":");
+                    proxy.explore();
+                    selectedObject.explore();
                     if (selectedObject.getSize() > 50)
                         spacecraft.setHealth(30);
                         spacecraft.setFuel(40);
