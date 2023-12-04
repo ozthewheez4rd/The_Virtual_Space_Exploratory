@@ -1,50 +1,75 @@
-//import java.util.Scanner;
-//
-//public class Tests {
-//    public static void main(String[] args) {
-//        testManageCrew();
-//        testManageCargo();
-//    }
-//
-//    public static void testManageCrew() {
-//        System.out.println("Testing manageCrew method:");
-//
-//        // Instantiate your repositories
-//        CrewMemberRepo repositoryCrew = new CrewMemberRepo();
-//
-//        // Create a test instance of the Main class
-//        Main main = new Main();
-//
-//        // Add a crew member for testing
-//        CrewMember.addCrewMember(repositoryCrew, new Scanner(System.in));
-//
-//        // Call the manageCrew method
-//        main.manageCrew(repositoryCrew, new Scanner(System.in));
-//
-//        // Assert that the repository is not empty
-//        assert !repositoryCrew.getAllCrewMembers().isEmpty() : "Crew repository should not be empty";
-//
-//        System.out.println("Manage Crew method test complete.\n");
-//    }
-//
-//    public static void testManageCargo() {
-//        System.out.println("Testing manageCargo method:");
-//
-//        // Instantiate your repositories
-//        CargoRepo repositoryCargo = new CargoRepo();
-//
-//        // Create a test instance of the Main class
-//        Main main = new Main();
-//
-//        // Add cargo for testing
-//        Cargo.addCargo(repositoryCargo, new Scanner(System.in));
-//
-//        // Call the manageCargo method
-//        main.manageCargo(repositoryCargo, new Scanner(System.in));
-//
-//        // Assert that the repository is not empty
-//        assert !repositoryCargo.getAllCargo().isEmpty() : "Cargo repository should not be empty";
-//
-//        System.out.println("Manage Cargo method test complete.\n");
-//    }
-//}
+import org.junit.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.*;
+
+public class Tests {
+
+    @Test
+    public void testAddCrewMember() {
+        CrewMemberRepo crewMemberRepo = new CrewMemberRepo();
+
+        // Create a CrewMember object with predefined body statuses
+        CrewMember crewMember = new CrewMember("John Doe", "Astronaut");
+        crewMember.getBody().setTorso("Healthy");
+        crewMember.getBody().setHead("Healthy");
+        crewMember.getBody().setLeftArm("Healthy");
+        crewMember.getBody().setRightArm("Healthy");
+        crewMember.getBody().setLeftLeg("Healthy");
+        crewMember.getBody().setRightLeg("Healthy");
+
+
+        assertFalse(crewMemberRepo.getAllCrewMembers().contains(crewMember));
+
+
+        crewMemberRepo.getAllCrewMembers().add(crewMember);
+
+
+        assertTrue(crewMemberRepo.getAllCrewMembers().contains(crewMember));
+
+
+        System.out.println("Test Add Crew Member passed!");
+    }
+
+    @Test
+    public void testAddCargo() {
+        CargoRepo cargoRepo = new CargoRepo();
+
+
+        Cargo cargo = new Cargo("Iron", 10, 50, new ArrayList<>());
+
+
+        assertFalse(cargoRepo.getAllCargo().contains(cargo));
+
+
+        cargoRepo.getAllCargo().add(cargo);
+
+
+        assertTrue(cargoRepo.getAllCargo().contains(cargo));
+
+
+        System.out.println("Test Add Cargo passed!");
+    }
+
+    @Test
+    public void testCrewMemberDecorator() {
+        // Create a CrewMember object
+        CrewMember crewMember = new CrewMember("John Doe", "Astronaut");
+
+        // Create a CrewMemberDecorator object with additional equipment
+        CrewMemberDecorator decoratedMember = new CrewMemberDecorator(crewMember, "Helmet1", "Shield2");
+
+        // Check that the decorator retains the original CrewMember details
+        assertEquals("John Doe", decoratedMember.getName());
+        assertEquals("Astronaut", decoratedMember.getPosition());
+
+        // Check the additional equipment details
+        assertEquals("Helmet1", decoratedMember.getHelmet());
+        assertEquals("Shield2", decoratedMember.getShield());
+
+        // Print a message or assertion result
+        System.out.println("Test CrewMemberDecorator passed!");
+    }
+
+}

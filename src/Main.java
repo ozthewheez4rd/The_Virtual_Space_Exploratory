@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.List;
+import javax.management.monitor.Monitor;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,6 +12,10 @@ public class Main {
         CelestialObjectRepo repositoryObj = new CelestialObjectRepo();
         CrewMemberRepo repositoryCrew = new CrewMemberRepo();
         CargoRepo repositoryCarg = new CargoRepo();
+        Spacecraft.HealthMonitor healthMonitor = new Spacecraft.HealthMonitor();
+        Spacecraft.FuelMonitor fuelMonitor = new Spacecraft.FuelMonitor();
+        spacecraft.addObserver(healthMonitor);
+        spacecraft.addObserver(fuelMonitor);
 
         do {
             clearConsole();
@@ -31,7 +36,7 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    exploreCelestialObjects(repositoryObj, scanner);
+                    exploreCelestialObjects(repositoryObj, scanner, spacecraft);
                     break;
                 case 2:
                     viewSpacecraft(spacecraft);
@@ -58,7 +63,7 @@ public class Main {
         } while (choice != 0);
     }
 
-    public static void exploreCelestialObjects(CelestialObjectRepo repository, Scanner scanner) {
+    public static void exploreCelestialObjects(CelestialObjectRepo repository, Scanner scanner, Spacecraft spacecraft) {
         repository.loadCelestialObjects(); // Reload celestial objects from the database
 
         List<CelestialObject> celestialObjects = repository.getAllCelestialObjects();
@@ -82,10 +87,16 @@ public class Main {
                     //System.out.println("Exploring " + selectedObject.getName() + ":");
                     //selectedObject.explore();
 
+
                     // Use CelestialObjectProxy instead of CelestialObject
                     CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
                     CelestialObjectProxy proxy = new CelestialObjectProxy(selectedObject.getName(), selectedObject.getMass(), selectedObject.getSize());
                     System.out.println("Exploring " + proxy.getName() + ":");
+                    // Check the size of the celestial object and update spacecraft status accordingly
+                    if (selectedObject.getSize() > 50) {
+                        spacecraft.updateStatus(spacecraft.getHealth() - 30, spacecraft.getFuel() - 40);
+                    }
+                    
                     proxy.explore();
                     selectedObject.explore();
                 } else {
