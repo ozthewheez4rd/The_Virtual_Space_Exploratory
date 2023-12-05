@@ -4,8 +4,8 @@ import java.util.Scanner;
 public class Planet extends CelestialObject implements Serializable {
     private String composition;
 
-    public Planet(String name, double size, double mass, String composition) {
-        super(name, size, mass);
+    public Planet(String name, double size, String mass, String composition) {
+        super(name, mass, size);
         this.composition = composition;
     }
 
@@ -21,14 +21,13 @@ public class Planet extends CelestialObject implements Serializable {
         double radius = scanner.nextDouble();
 
         System.out.print("Enter the mass of the planet (in kg): ");
-        double mass = scanner.nextDouble();
+        String mass = scanner.next(); // Change to read a string
 
         System.out.print("Enter the composition of the planet: ");
         String composition = scanner.next();
 
         repository.addCelestialObject(new Planet(name, radius, mass, composition));
     }
-
 
     @Override
     public void explore() {

@@ -1,9 +1,10 @@
+import javax.management.monitor.Monitor;
 import java.util.Scanner;
 import java.util.List;
-import javax.management.monitor.Monitor;
 
 public class Main {
     public static void main(String[] args) {
+        // Create the first instances of general objects
         Scanner scanner = new Scanner(System.in);
         Spacecraft spacecraft = new Spacecraft("Aurora", 100.0, 100.0);
         int choice;
@@ -83,21 +84,19 @@ public class Main {
                 if (objectChoice == 0) {
                     break; // Exit the exploration loop
                 } else if (objectChoice >= 1 && objectChoice <= celestialObjects.size()) {
-                    //CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
-                    //System.out.println("Exploring " + selectedObject.getName() + ":");
-                    //selectedObject.explore();
-
-
-                    // Use CelestialObjectProxy instead of CelestialObject
                     CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
+                //    System.out.println("Exploring " + selectedObject.getName() + ":");
                     CelestialObjectProxy proxy = new CelestialObjectProxy(selectedObject.getName(), selectedObject.getMass(), selectedObject.getSize());
                     System.out.println("Exploring " + proxy.getName() + ":");
-                    // Check the size of the celestial object and update spacecraft status accordingly
-                    if (selectedObject.getSize() > 50) {
-                        spacecraft.updateStatus(spacecraft.getHealth() - 30, spacecraft.getFuel() - 40);
-                    }
-                    
                     proxy.explore();
+                    selectedObject.explore();
+
+                    // Add curly braces to properly group these statements
+                    if (selectedObject.getSize() > 50) {
+                        spacecraft.setHealth(30);
+                        spacecraft.setFuel(40);
+                    }
+
                     selectedObject.explore();
                 } else {
                     System.out.println("Invalid choice. Please try again.");
@@ -137,18 +136,8 @@ public class Main {
                     break; // Exit the exploration loop
                 } else if (memberChoice >= 1 && memberChoice <= crewMembers.size()) {
                     CrewMember selectedMember = crewMembers.get(memberChoice - 1);
-                    //System.out.println("Viewing " + selectedMember.getName() + ":");
-                    //selectedMember.explore();
-                    // Decorate the selected member with equipment
-                    CrewMemberDecorator decoratedMember = new CrewMemberDecorator(selectedMember, "Helmet1", "Shield2");
-
-                    // Use additional functionality related to equipment
-                    //decoratedMember.additionalFunctionality();
                     System.out.println("Viewing " + selectedMember.getName() + ":");
                     selectedMember.explore();
-
-                    // Use additional functionality related to equipment
-                    decoratedMember.additionalFunctionality();
                 } else {
                     System.out.println("Invalid choice. Please try again.");
                 }
@@ -175,13 +164,8 @@ public class Main {
                     break; // Exit the exploration loop
                 } else if (cargoChoice >= 1 && cargoChoice <= cargoList.size()) {
                     Cargo selectedObject = cargoList.get(cargoChoice - 1);
-                    // Adapt Cargo to CargoInfo using CargoInfoAdapter
-                    CargoInfo cargoInfoAdapter = new CargoInfoAdapter(selectedObject);
                     System.out.println("We have: " + selectedObject.getQuantity() + " " + selectedObject.getName() + ". Market value is set at: " + selectedObject.getValue());
                     System.out.println("Total sale value: " + (selectedObject.getQuantity() * selectedObject.getValue()));
-
-                    // Print information from the adapted CargoInfo instance
-                    System.out.println("Adapted CargoInfo Description: " + cargoInfoAdapter.getDescription());
                 } else {
                     System.out.println("Invalid choice. Please try again.");
                 }

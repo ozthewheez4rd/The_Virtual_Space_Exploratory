@@ -13,13 +13,13 @@ interface SpacecraftSubject {
     void removeObserver(SpacecraftObserver observer);
     void notifyObservers(String message);
 }
-
 public class Spacecraft implements Serializable, SpacecraftSubject{
     private String name;
     private double health;
     private double fuel;
     private static SpacecraftConfig spacecraftConfig = SpacecraftConfig.getInstance();
     private List<SpacecraftObserver> observers = new ArrayList<>();
+
 
     public Spacecraft(String name, double health, double fuel){
         this.name = name;
@@ -42,7 +42,6 @@ public class Spacecraft implements Serializable, SpacecraftSubject{
     public void setFuel(int newFuel) {
         this.fuel = this.fuel - newFuel;
     }
-
 
     public double getFuel() {
         return fuel;

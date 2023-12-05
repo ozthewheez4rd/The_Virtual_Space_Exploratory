@@ -1,4 +1,3 @@
-// CargoInfoAdapter class adapting Cargo to CargoInfo
 public class CargoInfoAdapter implements CargoInfo {
     private Cargo cargo;
 
