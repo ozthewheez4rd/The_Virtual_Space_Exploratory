@@ -84,17 +84,19 @@ public class Main {
                 if (objectChoice == 0) {
                     break; // Exit the exploration loop
                 } else if (objectChoice >= 1 && objectChoice <= celestialObjects.size()) {
-//                    CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
-//                    System.out.println("Exploring " + selectedObject.getName() + ":");
                     CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
-                    System.out.println("Exploring " + selectedObject.getName() + ":");
+                //    System.out.println("Exploring " + selectedObject.getName() + ":");
                     CelestialObjectProxy proxy = new CelestialObjectProxy(selectedObject.getName(), selectedObject.getMass(), selectedObject.getSize());
                     System.out.println("Exploring " + proxy.getName() + ":");
                     proxy.explore();
                     selectedObject.explore();
-                    if (selectedObject.getSize() > 50)
+
+                    // Add curly braces to properly group these statements
+                    if (selectedObject.getSize() > 50) {
                         spacecraft.setHealth(30);
                         spacecraft.setFuel(40);
+                    }
+
                     selectedObject.explore();
                 } else {
                     System.out.println("Invalid choice. Please try again.");

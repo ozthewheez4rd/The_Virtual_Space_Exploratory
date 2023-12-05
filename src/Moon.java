@@ -6,11 +6,16 @@ public class Moon extends CelestialObject implements Serializable {
     private double criticalMass;
     private double luminosity;
 
-    public Moon(String name, double size, double mass, double temperature, double criticalMass, double luminosity) {
-        super(name, size, mass);
+    public Moon(String name, double size, String mass, double temperature, double criticalMass, double luminosity) {
+        super(name, mass, size);
         this.temperature = temperature;
         this.criticalMass = criticalMass;
         this.luminosity = luminosity;
+    }
+
+    // Adjusting the getter method to return a string
+    public String getMass() {
+        return mass;
     }
 
     public double getTemperature() {
@@ -33,7 +38,7 @@ public class Moon extends CelestialObject implements Serializable {
         double moonRadius = scanner.nextDouble();
 
         System.out.print("Enter the mass of the moon (in kg): ");
-        double moonMass = scanner.nextDouble();
+        String moonMass = scanner.next(); // Change to read a string
 
         System.out.print("Enter the temperature of the moon (in Celsius): ");
         double moonTemperature = scanner.nextDouble();

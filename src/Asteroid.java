@@ -4,8 +4,8 @@ import java.util.Scanner;
 public class Asteroid extends CelestialObject implements Serializable {
     private String composition;
 
-    public Asteroid(String name, double size, double mass, String composition) {
-        super(name, size, mass);
+    public Asteroid(String name, double size, String mass, String composition) {
+        super(name, mass, size);
         this.composition = composition;
     }
 
@@ -21,7 +21,7 @@ public class Asteroid extends CelestialObject implements Serializable {
         double radius = scanner.nextDouble();
 
         System.out.print("Enter the mass of the asteroid (in kg): ");
-        double mass = scanner.nextDouble();
+        String mass = scanner.next(); // Change to read a string
 
         System.out.print("Enter the composition of the asteroid: ");
         String composition = scanner.next();

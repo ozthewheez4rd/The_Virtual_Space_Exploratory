@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CelestialObjectRepo {
-    private static final String JDBC_URL = "jdbc:mysql://Localhost:3306/spacecraft_db";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/spacecraft_db";
     private static final String JDBC_USER = "root";
     private static final String JDBC_PASSWORD = "root";
 
@@ -29,15 +29,16 @@ public class CelestialObjectRepo {
 
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
              Statement statement = connection.createStatement()) {
+
             ResultSet resultSet = statement.executeQuery("SELECT * FROM CelestialObjects");
 
             while (resultSet.next()) {
                 String name = resultSet.getString("Name");
-                double mass = resultSet.getDouble("Mass");
+                String mass = resultSet.getString("Mass");
                 double size = resultSet.getDouble("Size");
 
-                // Example: CelestialObject object = new CelestialObject(name, mass, size);
-                // objects.add(object);
+                CelestialObjectProxy proxy = new CelestialObjectProxy(name, mass, size);
+                objects.add(proxy);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,6 +46,7 @@ public class CelestialObjectRepo {
 
         return objects;
     }
+
     private int getNextAvailableID() {
         int nextID = 1;
 
@@ -69,7 +71,7 @@ public class CelestialObjectRepo {
 
             preparedStatement.setInt(1, getNextAvailableID());  // Provide a unique value for 'ID'
             preparedStatement.setString(2, celestialObject.getName());
-            preparedStatement.setDouble(3, celestialObject.getMass());
+            preparedStatement.setString(3, celestialObject.getMass()); // Mass is a string
             preparedStatement.setDouble(4, celestialObject.getSize());
 
             preparedStatement.executeUpdate();

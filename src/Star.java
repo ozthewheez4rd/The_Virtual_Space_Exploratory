@@ -6,11 +6,16 @@ public class Star extends CelestialObject implements Serializable {
     private double luminosity;
     private double criticalMass;
 
-    public Star(String name, double size, double mass, double temperature, double criticalMass, double luminosity) {
-        super(name, size, mass);
+    public Star(String name, double size, String mass, double temperature, double criticalMass, double luminosity) {
+        super(name, mass, size);
         this.temperature = temperature;
         this.criticalMass = criticalMass;
         this.luminosity = luminosity;
+    }
+
+    // Adjusting the getter method to return a string
+    public String getMass() {
+        return mass;
     }
 
     public double getTemperature() {
@@ -33,7 +38,7 @@ public class Star extends CelestialObject implements Serializable {
         double radius = scanner.nextDouble();
 
         System.out.print("Enter the mass of the star (in kg): ");
-        double mass = scanner.nextDouble();
+        String mass = scanner.next(); // Change to read a string
 
         System.out.print("Enter the temperature of the star (in K): ");
         int temperature = scanner.nextInt();

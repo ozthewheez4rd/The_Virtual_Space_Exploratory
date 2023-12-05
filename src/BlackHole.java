@@ -6,11 +6,16 @@ public class BlackHole extends CelestialObject implements Serializable {
     private double luminosity;
     private double criticalMass;
 
-    public BlackHole(String name, double size, double mass, double temperature, double criticalMass, double luminosity) {
-        super(name, size, mass);
+    public BlackHole(String name, double size, String mass, double temperature, double criticalMass, double luminosity) {
+        super(name, mass, size);
         this.temperature = temperature;
         this.criticalMass = criticalMass;
         this.luminosity = luminosity;
+    }
+
+    // Adjusting the getter method to return a string
+    public String getMass() {
+        return mass;
     }
 
     public double getTemperature() {
@@ -25,7 +30,7 @@ public class BlackHole extends CelestialObject implements Serializable {
         return criticalMass;
     }
 
-    public static void addStar(CelestialObjectRepo repository, Scanner scanner) {
+    public static void addBlackHole(CelestialObjectRepo repository, Scanner scanner) {
         System.out.print("Enter the name of the BlackHole: ");
         String name = scanner.next();
 
@@ -33,7 +38,7 @@ public class BlackHole extends CelestialObject implements Serializable {
         double radius = scanner.nextDouble();
 
         System.out.print("Enter the mass of the BlackHole (in kg): ");
-        double mass = scanner.nextDouble();
+        String mass = scanner.next(); // Change to read a string
 
         System.out.print("Enter the temperature of the BlackHole (in K): ");
         int temperature = scanner.nextInt();

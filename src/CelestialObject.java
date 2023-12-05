@@ -4,10 +4,10 @@ import java.util.HashSet;
 public abstract class CelestialObject implements Serializable {
     private String name;
     private double size;
-    private double mass;
+    public String mass;
     private HashSet<Resource> resources = new HashSet<>();
 
-    public CelestialObject(String name, double mass, double size ) {
+    public CelestialObject(String name, String mass, double size ) {
         this.name = name;
         this.size = size;
         this.mass = mass;
@@ -21,9 +21,7 @@ public abstract class CelestialObject implements Serializable {
         return size;
     }
 
-    public double getMass() {
-        return mass;
-    }
+    public String getMass() { return mass; }
 
     //Common methods that can be overridden by subclasses
     public abstract void explore();

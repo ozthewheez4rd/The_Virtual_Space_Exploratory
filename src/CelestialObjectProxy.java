@@ -4,7 +4,7 @@ import java.util.HashSet;
 public class CelestialObjectProxy extends CelestialObject {
     private boolean isRealObjectInitialized = false;
 
-    public CelestialObjectProxy(String name, double mass, double size) {
+    public CelestialObjectProxy(String name, String mass, double size) {
         super(name, mass, size);
     }
 
