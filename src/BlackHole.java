@@ -2,58 +2,47 @@ import java.io.Serializable;
 import java.util.Scanner;
 
 public class BlackHole extends CelestialObject implements Serializable {
-    private double temperature;
-    private double luminosity;
-    private double criticalMass;
 
-    public BlackHole(String name, double size, String mass, double temperature, double criticalMass, double luminosity) {
-        super(name, mass, size);
-        this.temperature = temperature;
-        this.criticalMass = criticalMass;
-        this.luminosity = luminosity;
+
+    public BlackHole(String name, String mass, String specs, String res, double size, double temperature, double luminosity, double criticalMass) {
+        super("Blackhole", name, mass, specs, res, size, "", temperature, luminosity, criticalMass);
+
     }
 
-    // Adjusting the getter method to return a string
-    public String getMass() {
-        return mass;
-    }
 
-    public double getTemperature() {
-        return temperature;
-    }
-
-    public double getLuminosity() {
-        return luminosity;
-    }
-
-    public double getCriticalMass() {
-        return criticalMass;
-    }
 
     public static void addBlackHole(CelestialObjectRepo repository, Scanner scanner) {
-        System.out.print("Enter the name of the BlackHole: ");
+        System.out.print("Enter the name of the Blackhole: ");
         String name = scanner.next();
 
-        System.out.print("Enter the radius of the BlackHole (in km): ");
+        System.out.print("Enter the mass of the Blackhole (in kg): ");
+        String mass = scanner.next();
+
+        System.out.print("Enter the specifications of the Blackhole: ");
+        String specs = scanner.next();
+
+        System.out.print("Enter the resources of the Blackhole: ");
+        String res = scanner.next();
+
+        System.out.print("Enter the radius of the Blackhole(in km): ");
         double radius = scanner.nextDouble();
 
-        System.out.print("Enter the mass of the BlackHole (in kg): ");
-        String mass = scanner.next(); // Change to read a string
-
         System.out.print("Enter the temperature of the BlackHole (in K): ");
-        int temperature = scanner.nextInt();
-
-        System.out.print("Enter the critical mass of the BlackHole (in kg): ");
-        double criticalMass = scanner.nextDouble();
+        double temperature = scanner.nextInt();
 
         System.out.print("Enter the luminosity of the BlackHole (in watts): ");
         double luminosity = scanner.nextDouble();
 
-        repository.addCelestialObject(new BlackHole(name, radius, mass, temperature, criticalMass, luminosity));
+        System.out.print("Enter the critical mass of the BlackHole (in kg): ");
+        double criticalMass = scanner.nextDouble();
+
+        repository.addCelestialObject(new BlackHole(name, mass, specs, res, radius, temperature, luminosity, criticalMass));
     }
 
     @Override
     public void explore() {
-        System.out.println("Exploring the BlackHole " + getName() + " with a temperature of " + getTemperature() + " Celsius" + ". " + "It's luminosity is " + getLuminosity() + " and the critical mass situated at " + getCriticalMass() + ". ");
+        System.out.println("Exploring the BlackHole " + getName() + " with a temperature of " + getTemperature() + " Celsius" + ". " + "It's luminosity is " + getLuminosity() + " and the critical mass situated at " + getCriticalMass() +
+                ". It has specifications: " + getSpecs() + ", resources: " + getRes());
     }
 }
+

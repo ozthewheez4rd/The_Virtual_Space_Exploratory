@@ -2,58 +2,48 @@ import java.io.Serializable;
 import java.util.Scanner;
 
 public class Moon extends CelestialObject implements Serializable {
-    private double temperature;
-    private double criticalMass;
-    private double luminosity;
 
-    public Moon(String name, double size, String mass, double temperature, double criticalMass, double luminosity) {
-        super(name, mass, size);
-        this.temperature = temperature;
-        this.criticalMass = criticalMass;
-        this.luminosity = luminosity;
+
+    public Moon(String name, String mass, String specs, String res, double size, double temperature, double luminosity, double criticalMass) {
+        super("Moon", name, mass, specs, res, size, "", temperature, luminosity, criticalMass);
+
     }
 
-    // Adjusting the getter method to return a string
-    public String getMass() {
-        return mass;
-    }
 
-    public double getTemperature() {
-        return temperature;
-    }
-
-    public double getCriticalMass() {
-        return criticalMass;
-    }
-
-    public double getLuminosity() {
-        return luminosity;
-    }
 
     public static void addMoon(CelestialObjectRepo repository, Scanner scanner) {
-        System.out.print("Enter the name of the moon: ");
-        String moonName = scanner.next();
+        System.out.print("Enter the name of the Moon: ");
+        String name = scanner.next();
 
-        System.out.print("Enter the radius of the moon (in km): ");
-        double moonRadius = scanner.nextDouble();
+        System.out.print("Enter the mass of the Moon (in kg): ");
+        String mass = scanner.next();
 
-        System.out.print("Enter the mass of the moon (in kg): ");
-        String moonMass = scanner.next(); // Change to read a string
+        System.out.print("Enter the specifications of the Moon: ");
+        String specs = scanner.next();
 
-        System.out.print("Enter the temperature of the moon (in Celsius): ");
-        double moonTemperature = scanner.nextDouble();
+        System.out.print("Enter the resources of the Moon: ");
+        String res = scanner.next();
 
-        System.out.print("Enter the critical mass of the moon (in kg): ");
-        double moonCriticalMass = scanner.nextDouble();
+        System.out.print("Enter the radius of the Moon(in km): ");
+        double radius = scanner.nextDouble();
 
-        System.out.print("Enter the luminosity of the moon (in watts): ");
-        double moonLuminosity = scanner.nextDouble();
+        System.out.print("Enter the temperature of the Moon (in K): ");
+        double temperature = scanner.nextInt();
 
-        repository.addCelestialObject(new Moon(moonName, moonRadius, moonMass, moonTemperature, moonCriticalMass, moonLuminosity));
+        System.out.print("Enter the luminosity of the Moon (in watts): ");
+        double luminosity = scanner.nextDouble();
+
+        System.out.print("Enter the critical mass of the Moon (in kg): ");
+        double criticalMass = scanner.nextDouble();
+
+        repository.addCelestialObject(new Moon(name, mass, specs, res, radius, temperature, luminosity, criticalMass));
     }
 
     @Override
     public void explore() {
-        System.out.println("Exploring the moon " + getName() + " with a temperature of " + getTemperature() + " Celsius. It has a critical mass of " + getCriticalMass() + " kg and a luminosity of " + getLuminosity() + " watts.");
+        System.out.println("Exploring the Moon " + getName() + " with a temperature of " + getTemperature() + " Celsius" + ". " + "It's luminosity is " + getLuminosity() + " and the critical mass situated at " + getCriticalMass() +
+                ". It has specifications: " + getSpecs() + ", resources: " + getRes());
     }
 }
+
+
