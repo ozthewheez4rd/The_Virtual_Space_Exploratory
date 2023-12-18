@@ -1,23 +1,23 @@
 import java.io.Serializable;
+import java.util.HashSet;
 
 public abstract class CelestialObject implements Serializable {
     private String type;
     private String name;
     private String mass;
     private String specs;
-    private String res;
+    private HashSet<Resource> resources = new HashSet<>();
     private double size;
     private String composition;
     private double temperature;
     private double luminosity;
     private double criticalMass;
 
-    public CelestialObject(String type, String name, String mass, String specs, String res, double size, String composition, double temperature, double luminosity, double criticalMass) {
+    public CelestialObject(String type, String name, String mass, String specs, double size, String composition, double temperature, double luminosity, double criticalMass) {
         this.type = type;
         this.name = name;
         this.mass = mass;
         this.specs = specs;
-        this.res = res;
         this.size = size;
         this.composition = composition;
         this.temperature = temperature;
@@ -41,8 +41,8 @@ public abstract class CelestialObject implements Serializable {
         return specs;
     }
 
-    public String getRes() {
-        return res;
+    public HashSet<Resource> getResources() {
+        return resources;
     }
 
     public double getSize() {
@@ -65,12 +65,17 @@ public abstract class CelestialObject implements Serializable {
         return criticalMass;
     }
 
+    public void addResource(Resource resource) {
+        resources.add(resource);
+    }
+
+    public void removeResource(Resource resource) {
+        resources.remove(resource);
+    }
+
     // Common methods that can be overridden by subclasses
     public abstract void explore();
-
-
 }
-
 
 
 
