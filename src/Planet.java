@@ -5,8 +5,7 @@ import java.util.Scanner;
 public class Planet extends CelestialObject implements Serializable {
 
     public Planet(String name, String mass, String specs, HashSet<Resource> resources, double size, String composition) {
-        super("Planet", name, mass, specs, size, composition, 0, 0, 0);
-        this.getResources().addAll(resources);
+        super("Planet", name, mass, specs, resources, size, composition, 0, 0, 0);
     }
 
     public static void addPlanet(CelestialObjectRepo repository, Scanner scanner) {
@@ -45,8 +44,6 @@ public class Planet extends CelestialObject implements Serializable {
                 ". It has a radius of " + getSize() + " and a mass of " + getMass() + " kg.");
     }
 }
-
-
 
 
 

@@ -5,8 +5,7 @@ import java.util.Scanner;
 public class Comet extends CelestialObject implements Serializable {
 
     public Comet(String name, String mass, String specs, HashSet<Resource> resources, double size, String composition) {
-        super("Comet", name, mass, specs, size, composition, 0, 0, 0);
-        this.getResources().addAll(resources);
+        super("Comet", name, mass, specs, resources, size, composition, 0, 0, 0);
     }
 
     public static void addComet(CelestialObjectRepo repository, Scanner scanner) {
@@ -45,7 +44,6 @@ public class Comet extends CelestialObject implements Serializable {
                 ". It has a radius of " + getSize() + " and a mass of " + getMass() + " kg.");
     }
 }
-
 
 
 

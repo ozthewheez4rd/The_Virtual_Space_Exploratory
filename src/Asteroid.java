@@ -5,8 +5,7 @@ import java.util.Scanner;
 public class Asteroid extends CelestialObject implements Serializable {
 
     public Asteroid(String name, String mass, String specs, HashSet<Resource> resources, double size, String composition) {
-        super("Asteroid", name, mass, specs, size, composition, 0, 0, 0);
-        this.getResources().addAll(resources);
+        super("Asteroid", name, mass, specs, resources, size, composition, 0, 0, 0);
     }
 
     public static void addAsteroid(CelestialObjectRepo repository, Scanner scanner) {
@@ -45,13 +44,3 @@ public class Asteroid extends CelestialObject implements Serializable {
                 ". It has a radius of " + getSize() + " and a mass of " + getMass() + " kg.");
     }
 }
-
-
-
-
-
-
-
-
-
-

@@ -5,8 +5,7 @@ import java.util.Scanner;
 public class BlackHole extends CelestialObject implements Serializable {
 
     public BlackHole(String name, String mass, String specs, HashSet<Resource> resources, double size, double temperature, double luminosity, double criticalMass) {
-        super("Blackhole", name, mass, specs, size, "", temperature, luminosity, criticalMass);
-        this.getResources().addAll(resources);
+        super("Blackhole", name, mass, specs, resources, size, "", temperature, luminosity, criticalMass);
     }
 
     public static void addBlackHole(CelestialObjectRepo repository, Scanner scanner) {
@@ -51,6 +50,3 @@ public class BlackHole extends CelestialObject implements Serializable {
                 ". It has specifications: " + getSpecs() + ", resources: " + getResources());
     }
 }
-
-
-

@@ -13,11 +13,12 @@ public abstract class CelestialObject implements Serializable {
     private double luminosity;
     private double criticalMass;
 
-    public CelestialObject(String type, String name, String mass, String specs, double size, String composition, double temperature, double luminosity, double criticalMass) {
+    public CelestialObject(String type, String name, String mass, String specs, HashSet<Resource> resources, double size, String composition, double temperature, double luminosity, double criticalMass) {
         this.type = type;
         this.name = name;
         this.mass = mass;
         this.specs = specs;
+        this.resources.addAll(resources);
         this.size = size;
         this.composition = composition;
         this.temperature = temperature;
@@ -76,8 +77,5 @@ public abstract class CelestialObject implements Serializable {
     // Common methods that can be overridden by subclasses
     public abstract void explore();
 }
-
-
-
 
 

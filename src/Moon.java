@@ -5,8 +5,7 @@ import java.util.Scanner;
 public class Moon extends CelestialObject implements Serializable {
 
     public Moon(String name, String mass, String specs, HashSet<Resource> resources, double size, double temperature, double luminosity, double criticalMass) {
-        super("Moon", name, mass, specs, size, "", temperature, luminosity, criticalMass);
-        this.getResources().addAll(resources);
+        super("Moon", name, mass, specs, resources, size, "", temperature, luminosity, criticalMass);
     }
 
     public static void addMoon(CelestialObjectRepo repository, Scanner scanner) {
@@ -51,6 +50,7 @@ public class Moon extends CelestialObject implements Serializable {
                 ". It has specifications: " + getSpecs() + ", resources: " + getResources());
     }
 }
+
 
 
 
