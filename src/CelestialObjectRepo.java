@@ -33,11 +33,19 @@ public class CelestialObjectRepo {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM CelestialObjects");
 
             while (resultSet.next()) {
+
+                String type = resultSet.getString("Type");
                 String name = resultSet.getString("Name");
                 String mass = resultSet.getString("Mass");
+                String specs = resultSet.getString("Specs");
                 double size = resultSet.getDouble("Size");
+                String composition = resultSet.getString("Composition");
+                double temperature = resultSet.getDouble("Temperature");
+                double luminosity = resultSet.getDouble("Luminosity");
+                double criticalMass = resultSet.getDouble("criticalMass");
 
-                CelestialObjectProxy proxy = new CelestialObjectProxy(name, mass, size);
+
+                CelestialObjectProxy proxy = new CelestialObjectProxy(type, name, mass, specs, size, composition, temperature, luminosity, criticalMass);
                 objects.add(proxy);
             }
         } catch (SQLException e) {

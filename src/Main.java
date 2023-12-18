@@ -86,7 +86,7 @@ public class Main {
                 } else if (objectChoice >= 1 && objectChoice <= celestialObjects.size()) {
                     CelestialObject selectedObject = celestialObjects.get(objectChoice - 1);
                 //    System.out.println("Exploring " + selectedObject.getName() + ":");
-                    CelestialObjectProxy proxy = new CelestialObjectProxy(selectedObject.getName(), selectedObject.getMass(), selectedObject.getSize());
+                    CelestialObjectProxy proxy = new CelestialObjectProxy(selectedObject.getType(), selectedObject.getName(), selectedObject.getMass(), selectedObject.getSpecs(), selectedObject.getSize(), selectedObject.getComposition(), selectedObject.getTemperature(), selectedObject.getLuminosity(), selectedObject.getCriticalMass());
                     System.out.println("Exploring " + proxy.getName() + ":");
                     proxy.explore();
                     selectedObject.explore();
