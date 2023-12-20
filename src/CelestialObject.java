@@ -1,5 +1,7 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public abstract class CelestialObject implements Serializable {
     private String type;
@@ -45,6 +47,16 @@ public abstract class CelestialObject implements Serializable {
     public HashSet<Resource> getResources() {
         return resources;
     }
+
+    public List<String> getResourceNames() {
+        List<String> resourceNames = new ArrayList<>();
+        for (Resource resource : resources) {
+            resourceNames.add(resource.getName());
+        }
+        return resourceNames;
+    }
+
+
 
     public double getSize() {
         return size;

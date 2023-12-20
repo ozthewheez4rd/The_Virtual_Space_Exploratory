@@ -77,7 +77,7 @@ public class CelestialObjectRepo {
         return objects;
     }
 
-    private int getNextAvailableID() {
+    public int getNextAvailableID() {
         int nextID = 1;
 
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
@@ -109,7 +109,7 @@ public class CelestialObjectRepo {
 //            e.printStackTrace();
 //        }
 //    }
-    private void saveCelestialObject(CelestialObject celestialObject) {
+    public void saveCelestialObject(CelestialObject celestialObject) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO CelestialObjects (ID, Type, Name, Mass, Specs, Resources, Size, Composition, Temperature, Luminosity, CriticalMass) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {

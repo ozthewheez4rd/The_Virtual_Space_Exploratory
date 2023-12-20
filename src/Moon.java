@@ -47,7 +47,7 @@ public class Moon extends CelestialObject implements Serializable {
     public void explore() {
         System.out.println("Exploring the Moon " + getName() + " with a temperature of " + getTemperature() + " K" +
                 ". It has a luminosity of " + getLuminosity() + " watts and the critical mass situated at " + getCriticalMass() +
-                ". It has specifications: " + getSpecs() + ", resources: " + getResources());
+                ". It has specifications: " + getSpecs() + ", resources: " + getResourceNames());
     }
 }
 

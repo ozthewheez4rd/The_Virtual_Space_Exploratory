@@ -1,14 +1,19 @@
-import java.io.*;
+import java.sql.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CargoRepo {
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/spacecraft_db";
+    private static final String JDBC_USER = "root";
+    private static final String JDBC_PASSWORD = "root";
+
     private List<Cargo> cargoList;
-    private List<Resource> resourceList; // Add a list to store resources
+    private List<Resource> resourceList;
 
     public CargoRepo() {
         cargoList = loadCargoData();
-        resourceList = loadResourceData(); // Initialize the resource list
     }
 
     public void addCargo(Cargo cargo) {
@@ -18,11 +23,10 @@ public class CargoRepo {
         }
     }
 
-    // Add a resource to the resource list
     public void addResource(Resource resource) {
         if (!resourceList.contains(resource)) {
             resourceList.add(resource);
-            saveResourceData(resourceList);
+
         }
     }
 
@@ -34,38 +38,60 @@ public class CargoRepo {
         return cargoList;
     }
 
-    // Load celestial objects from a file
     private List<Cargo> loadCargoData() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("C:\\Users\\Oana\\IdeaProjects\\MAP\\cargo.dat"))) {
-            return (List<Cargo>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new ArrayList<>();
-        }
-    }
+        List<Cargo> cargos = new ArrayList<>();
 
-    // Save cargo data to a file
-    private void saveCargoData(List<Cargo> objects) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Oana\\IdeaProjects\\MAP\\cargo.dat"))) {
-            oos.writeObject(objects);
-        } catch (IOException e) {
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+             Statement statement = connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Cargo");
+
+            while (resultSet.next()) {
+                String name = resultSet.getString("Name");
+                int quantity = resultSet.getInt("Quantity");
+                double value = resultSet.getDouble("Value");
+
+                // Retrieve the comma-separated string of resources from the database
+                String resourcesAsString = resultSet.getString("Resources");
+
+                // Split the string into individual resource values
+                String[] resourceValues = resourcesAsString.split(",");
+
+                // Create a List<Resource> from the split values
+                List<Resource> resources = new ArrayList<>();
+
+                Cargo cargo = new Cargo(name, quantity, value, resources);
+                cargos.add(cargo);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return cargos;
     }
 
-    // Load resources from a file
-    private List<Resource> loadResourceData() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("C:\\Users\\Oana\\IdeaProjects\\MAP\\resources.dat"))) {
-            return (List<Resource>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new ArrayList<>();
-        }
-    }
+    private void saveCargoData(List<Cargo> cargos) {
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "INSERT INTO cargo(name, quantity, value, resource_id) VALUES (?, ?, ?, ?)")) {
 
-    // Save resources to a file
-    private void saveResourceData(List<Resource> resources) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Oana\\IdeaProjects\\MAP\\resources.dat"))) {
-            oos.writeObject(resources);
-        } catch (IOException e) {
+            for (Cargo cargo : cargos) {
+                preparedStatement.setString(1, cargo.getName());
+                preparedStatement.setInt(2, cargo.getQuantity());
+                preparedStatement.setDouble(3, cargo.getValue());
+
+                // Convert List<Resource> to a comma-separated string
+                String resourcesAsString = cargo.getResources().stream()
+                        .map(Resource::getName)
+                        .collect(Collectors.joining(","));
+
+                preparedStatement.setString(4, resourcesAsString);
+
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

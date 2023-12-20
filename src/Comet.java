@@ -40,7 +40,7 @@ public class Comet extends CelestialObject implements Serializable {
     @Override
     public void explore() {
         System.out.println("Exploring the Comet " + getName() + " with a composition of " + getComposition() +
-                ". It has specifications: " + getSpecs() + ", resources: " + getResources() +
+                ". It has specifications: " + getSpecs() + ", resources: " + getResourceNames() +
                 ". It has a radius of " + getSize() + " and a mass of " + getMass() + " kg.");
     }
 }

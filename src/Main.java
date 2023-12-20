@@ -97,7 +97,7 @@ public class Main {
                         spacecraft.setFuel(40);
                     }
 
-                    selectedObject.explore();
+
                 } else {
                     System.out.println("Invalid choice. Please try again.");
                 }
